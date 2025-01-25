@@ -1,9 +1,9 @@
 //import { motion } from 'motion/react';
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { useState, useEffect } from 'react';
-import { useProjects } from '../context/ProjectContext';
+import { useState, useEffect } from "react";
+import { useProjects } from "../context/ProjectContext";
 
 const FolderComponent = ({ project, onClick }) => {
   const [width, setWidth] = useState(0);
@@ -50,7 +50,7 @@ const FolderComponent = ({ project, onClick }) => {
       </FrontFolderOverlay>
 
       <TextWrapper>
-        <h1>{workedHours > 0 ? `${workedHours}h` : '<1h'}</h1>
+        <h1>{workedHours > 0 ? `${workedHours}h` : "<1h"}</h1>
         <p>{project.title}</p>
         {/* <p>{percentage}</p> */}
       </TextWrapper>
@@ -65,24 +65,24 @@ const Paper = styled.div`
   background-color: #ebdab3;
   transition: 0.2s ease;
 
-  & p{
+  & p {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
     font-size: 0.7rem;
-    font-family: 'Rubik', serif;
+    font-family: "Rubik", serif;
   }
 `;
 
 const FolderWrapper = styled.div`
-
-  position: relative; 
-  cursor:pointer;
+  border: 2px solid red;
+  position: relative;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 200px; 
-  height: 200px; 
+  width: 200px;
+  height: 200px;
 
   &:hover ${Paper} {
     transform: translateY(-40%);
@@ -94,34 +94,34 @@ const FrontFolder = styled.div`
   inset: 0;
   color: gray;
 
-  & svg{
-    width:200px
+  & svg {
+    width: 200px;
   }
 `;
 
 const FrontFolderOverlay = styled.div`
   position: absolute;
-  inset:0;
+  inset: 0;
   color: #ffb800;
-  
-  overflow:hidden;
 
-  & svg{
-    width:200px
+  overflow: hidden;
+
+  & svg {
+    width: 200px;
   }
 `;
 
 const TextWrapper = styled.div`
   position: absolute;
   user-select: none;
-  font-family: 'Rubik', serif;
+  font-family: "Rubik", serif;
   color: #bd5738;
   opacity: 0.7;
   font-weight: normal;
   text-align: center;
   padding-top: 2rem;
 
-  & h1{
+  & h1 {
     font-size: 2.5rem;
     font-weight: normal;
   }

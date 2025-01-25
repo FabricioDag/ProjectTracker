@@ -1,15 +1,21 @@
-import './ModalComponent.css';
-import { motion } from 'motion/react';
+import "./ModalComponent.css";
+import { motion } from "motion/react";
 
 const ModalComponent = ({ project, onClose }) => {
   const modalVariants = {
-    hidden: { y: '100vh', opacity: 0 },
+    hidden: { y: "100vh", opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
-      transition: { type: 'spring', stiffness: 100 },
+      transition: { type: "spring", stiffness: 100 },
     },
-    exit: { y: '100vh', opacity: 0, transition: { duration: 0.5 } },
+    exit: { y: "100vh", opacity: 0, transition: { duration: 0.5 } },
+  };
+
+  const completedTodos = project.todos.filter((todo) => todo.completed).length;
+
+  const toggleTodoCompletion = (index) => {
+    project.todos[index].completed = !project.todos[index].completed;
   };
 
   return (
@@ -25,17 +31,35 @@ const ModalComponent = ({ project, onClose }) => {
         <button className="close-button" onClick={onClose}>
           &times;
         </button>
-        <h2>{project.title}</h2>
-        <p>{project.description}</p>
-        <p>{project.deadline}</p>
+
+        <div className="projectHeader">
+          <div className="titleWrapper">
+            <span>Titulo:</span>
+            <p className="titleHeader">{project.title}</p>
+          </div>
+
+          <div className="deadlineWrapper">
+            <span>Deadline:</span>
+            <p className="deadlineHeader">{project.deadline}</p>
+          </div>
+
+          <div className="descriptionWrapper">
+            <span>Descrição:</span>
+            <p className="descriptionHeader">{project.description}</p>
+          </div>
+        </div>
 
         <div className="todo-container">
-          <h1 className="todo-title">Minha To-Do List</h1>
+          <legend>Lista de Tarefas</legend>
+          <p>
+            Progresso: {completedTodos}/{project.todos.length}
+          </p>
           <ul className="todo-list">
             {project.todos.map((todo, index) => (
               <li
+                onClick={() => toggleTodoCompletion(index)}
                 key={index}
-                className={`todo-item ${todo.completed ? 'completed' : ''}`}
+                className={`todo-item ${todo.completed ? "completed" : ""}`}
               >
                 {todo.text}
               </li>
@@ -52,7 +76,7 @@ const ModalComponent = ({ project, onClose }) => {
             <hr />
           </div>
         ))}
-        <p>progresso</p>
+
         <p>horas trabalhadas</p>
       </motion.div>
     </div>

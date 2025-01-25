@@ -11,21 +11,47 @@
   z-index: 100;
 }
 
-.modalWrapper {
-  background-color: hsl(235, 46%, 20%);
-  padding: 2rem;
-  border-radius: 1rem;
-  width: 90%;
-  max-width: 500px;
+.prancheta {
   position: relative;
-  color: white;
-  display: flex;
-  flex-direction: column;
+  background: #af744b;
+  width: 80%;
+  height: 90%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 1px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  border-radius: 1rem;
+}
+
+.pegador {
+  position: absolute;
+  width: 30%;
+  height: 3rem;
+  background-color: gray;
+  top: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.papersheet {
+  position: relative;
+  background: #ebdab3;
+  width: 100%;
+  height: 101%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 1px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  font-family: "Special Elite", serif;
+  border: 1px solid #d1d1d1;
+  text-align: center;
 }
 
 .closeModalButton {
   background-color: transparent;
-  color: white;
+  color: black;
   border: none;
   cursor: pointer;
   font-size: 1.5rem;
@@ -35,79 +61,147 @@
 }
 
 form {
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.inputBox {
+.formHeader {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  text-align: left;
+  /* border: 2px solid aquamarine; */
+}
+
+.formHeader input {
+  background-color: transparent;
+  border: none;
+  padding: 0.5rem;
+}
+
+.titleWrapper {
+  border-bottom: 1px solid black;
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  grid-column: span 3;
 }
 
-.inputBox input,
-.inputBox textarea {
-  background-color: hsl(235, 45%, 61%);
-  padding: 0.3rem;
-  border: 2px solid white;
-  border-radius: 0.3rem;
+.deadlineWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-bottom: 1px solid black;
+}
+
+.descriptionWrapper {
+  /* border: 1px solid black; */
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  grid-column: span 4;
+}
+
+.formHeader textarea {
+  background-color: transparent;
+  border: 1px solid black;
+  padding: 0.5rem;
 }
 
 .colorSelector {
+  /* border: 2px solid rgb(235, 74, 74); */
   width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   gap: 0.5rem;
+  text-align: left;
+  align-items: center;
 }
 
-.colorSelector div {
-  height: 30px;
-  width: 30px;
-  border: 1px solid white;
-  border-radius: 50%;
+.colorWrapper {
+  display: flex;
+  gap: 1rem;
+  /* border: 2px solid red; */
 }
 
-.colorSelector div.active {
-  border: 2px solid white;
+.colorSelector button {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid black;
+
+  cursor: pointer;
 }
 
-.colorSelector div:nth-child(1) {
-  background-color: hsl(348, 100%, 68%);
+.todoArea {
+  /* border: 2px solid red; */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
 }
 
-.colorSelector div:nth-child(2) {
-  background-color: hsl(15, 100%, 70%);
+.todoWrapper {
+  /* border: 2px solid salmon; */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.colorSelector div:nth-child(3) {
-  background-color: hsl(195, 74%, 62%);
+.removeButton {
+  width: 1rem;
+  height: 1rem;
+  background-color: none;
+  border: none;
 }
 
-.colorSelector div:nth-child(4) {
-  background-color: hsl(145, 58%, 55%);
+.removeButton img {
+  height: 100%;
 }
 
-.colorSelector div:nth-child(5) {
-  background-color: hsl(264, 64%, 52%);
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  /* border: 2px solid green; */
+  border-bottom: 1px solid black;
 }
 
-.colorSelector div:nth-child(6) {
-  background-color: hsl(43, 84%, 65%);
+.inputWrapper input {
+  background-color: transparent;
+  border: none;
+  padding: 0.5rem;
+}
+
+.addButton {
+  width: 1rem;
+  height: 1rem;
+  background-color: none;
+  border: none;
+}
+
+.addButton img {
+  height: 100%;
 }
 
 .addProjectButton {
-  background-color: hsl(235, 45%, 61%);
-  color: white;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 0.3rem;
+  background-color: transparent;
+  font-size: 1rem;
+  color: #9a9595;
+  padding: 0.5rem 1.5rem;
+  border: 3px solid #9a9595;
+  border-radius: 0.5rem;
   cursor: pointer;
-  margin-top: 1rem;
   transition: 0.2s ease;
+  font-weight: bold;
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  transform: rotate(-3deg);
 }
 
 .addProjectButton:hover {
-  background-color: hsl(235, 45%, 51%);
+  color: #b20a0a;
+  border: 3px solid #b20a0a;
 }

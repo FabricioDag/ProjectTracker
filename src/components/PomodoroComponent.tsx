@@ -1,39 +1,42 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { useProjects } from '../context/ProjectContext';
-import { useState, useEffect } from 'react';
+import { useProjects } from "../context/ProjectContext";
+import { useState, useEffect } from "react";
+
+import playIcon from "../assets/play-solid.svg";
+import pauseIcon from "../assets/pause-solid.svg";
 
 const PomodoroComponent = () => {
   const { addRecord } = useProjects();
 
   // mover essa lógica para o modal de settings, aqui apenas puxa as infos
   const [workTime, setWorkTime] = useState(
-    () => Number(localStorage.getItem('workTime')) || 1500
+    () => Number(localStorage.getItem("workTime")) || 1500
   );
   const [shortBreakTime, setShortBreakTime] = useState(
-    () => Number(localStorage.getItem('shortBreakTime')) || 300
+    () => Number(localStorage.getItem("shortBreakTime")) || 300
   );
   const [longBreakTime, setLongBreakTime] = useState(
-    () => Number(localStorage.getItem('longBreakTime')) || 900
+    () => Number(localStorage.getItem("longBreakTime")) || 900
   );
   const [cyclesBeforeLongBreak, setCyclesBeforeLongBreak] = useState(
-    () => Number(localStorage.getItem('cyclesBeforeLongBreak')) || 4
+    () => Number(localStorage.getItem("cyclesBeforeLongBreak")) || 4
   );
 
   const [time, setTime] = useState(workTime);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [cycleCount, setCycleCount] = useState(0);
 
-  const [currentTimer, setCurrentTimer] = useState('work');
+  const [currentTimer, setCurrentTimer] = useState("work");
 
   const [currentSession, setCurrentSession] = useState(0);
 
   // Salvando as configurações no localStorage
   useEffect(() => {
-    localStorage.setItem('workTime', workTime);
-    localStorage.setItem('shortBreakTime', shortBreakTime);
-    localStorage.setItem('longBreakTime', longBreakTime);
-    localStorage.setItem('cyclesBeforeLongBreak', cyclesBeforeLongBreak);
+    localStorage.setItem("workTime", workTime);
+    localStorage.setItem("shortBreakTime", shortBreakTime);
+    localStorage.setItem("longBreakTime", longBreakTime);
+    localStorage.setItem("cyclesBeforeLongBreak", cyclesBeforeLongBreak);
   }, [workTime, shortBreakTime, longBreakTime, cyclesBeforeLongBreak]);
 
   // Formatação do tempo
@@ -41,8 +44,8 @@ const PomodoroComponent = () => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     //return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-    return `${minutes < 10 ? '0' + minutes : minutes}:${
-      remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds
+    return `${minutes < 10 ? "0" + minutes : minutes}:${
+      remainingSeconds < 10 ? "0" + remainingSeconds : remainingSeconds
     }`;
   };
 
@@ -54,9 +57,9 @@ const PomodoroComponent = () => {
   const resetTimer = () => {
     setIsTimerRunning(false);
     //gerenciar qual o timer que estava antes do reset
-    currentTimer == 'work'
+    currentTimer == "work"
       ? setTime(workTime)
-      : currentTimer == 'shortBreak'
+      : currentTimer == "shortBreak"
       ? setTime(shortBreakTime)
       : setTime(longBreakTime);
   };
@@ -64,17 +67,17 @@ const PomodoroComponent = () => {
   const nextTimer = () => {
     setIsTimerRunning(false);
     //gerenciar qual o proximo timer
-    if (currentTimer !== 'work') {
-      setCurrentTimer('work');
+    if (currentTimer !== "work") {
+      setCurrentTimer("work");
       setTime(workTime);
 
       setCycleCount((prev) => prev + 1); //counter ciclos ++
-    } else if (currentTimer == 'work' && cycleCount < cyclesBeforeLongBreak) {
-      setCurrentTimer('shortBreak');
+    } else if (currentTimer == "work" && cycleCount < cyclesBeforeLongBreak) {
+      setCurrentTimer("shortBreak");
       setTime(shortBreakTime);
       setCurrentSession(currentSession + workTime / 60); // adiciona worktime ao session
     } else {
-      setCurrentTimer('longBreak');
+      setCurrentTimer("longBreak");
       setTime(longBreakTime);
       setCycleCount(-1); //gambiarra pra depois do longbreak o counter estar em 0
       setCurrentSession(currentSession + workTime / 60); // adiciona worktime ao session
@@ -111,9 +114,9 @@ const PomodoroComponent = () => {
   };
 
   const getTotalTime = () => {
-    if (currentTimer === 'work') {
+    if (currentTimer === "work") {
       return workTime;
-    } else if (currentTimer === 'shortBreak') {
+    } else if (currentTimer === "shortBreak") {
       return shortBreakTime;
     } else {
       return longBreakTime;
@@ -124,7 +127,7 @@ const PomodoroComponent = () => {
 
   const handleEndSession = () => {
     let target = window.prompt(
-      'A qual processo deseja aplicar a session? ' + currentSession
+      "A qual processo deseja aplicar a session? " + currentSession
     );
     const newRecord = {
       date: new Date().toISOString(),
@@ -137,16 +140,41 @@ const PomodoroComponent = () => {
 
   return (
     <StyledPomodoroComponent className="pomodoroComponent">
-      <button onClick={handleClick}>{isTimerRunning ? 'PAUSE' : 'PLAY'}</button>
+      <PlayPauseButton onClick={handleClick}>
+        {isTimerRunning ? (
+          <img src={pauseIcon} alt="Pause" />
+        ) : (
+          <img src={playIcon} alt="Play" />
+        )}
+      </PlayPauseButton>
       <TimerWrapper className="timerWrapper">
         <p>{formatTime(time)}</p>
       </TimerWrapper>
       <button onClick={handleEndSession}>Reset</button>
-      <p>Session: {currentSession}</p>
-      <p>Debug</p>
+
+      <Debug>
+        <h2>Debug</h2>
+        <p>Work: {workTime}</p>
+        <p>Short Break: {shortBreakTime}</p>
+        <p>Long Break: {longBreakTime}</p>
+        <p>Cycles: {cyclesBeforeLongBreak}</p>
+        <p>Current Timer: {currentTimer}</p>
+        <p>Current Session: {currentSession}</p>
+        <p>Current Cycle: {cycleCount}</p>
+      </Debug>
     </StyledPomodoroComponent>
   );
 };
+
+const Debug = styled.div`
+  position: absolute;
+  top: -13rem;
+  right: 1rem;
+  background-color: white;
+  color: black;
+  padding: 1rem;
+  border: 2px solid yellow;
+`;
 
 const StyledPomodoroComponent = styled.div`
   display: flex;
@@ -174,6 +202,18 @@ const TimerWrapper = styled.div`
   top: -75%;
   transform: translateX(-50%);
   border: 2px solid red;
+`;
+
+const PlayPauseButton = styled.button`
+  background-color: transparent;
+  border: none;
+  width: 2rem;
+  height: 2rem;
+
+  img {
+    color: white;
+    height: 100%;
+  }
 `;
 
 export { PomodoroComponent };

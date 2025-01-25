@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { useProjects } from '../context/ProjectContext'; // Hook personalizado
-import { FolderComponent } from './FolderComponent'; // Componente do card
-import { ModalComponent } from './ModalComponent';
-import { ModalAddProject } from './ModalAddProject';
+import React, { useState } from "react";
+import { useProjects } from "../context/ProjectContext"; // Hook personalizado
+import { FolderComponent } from "./FolderComponent"; // Componente do card
+import { ModalComponent } from "./ModalComponent";
+import { ModalAddProject } from "./ModalAddProject";
+
+import styled from "styled-components";
 
 const ProjectList = () => {
   const { projects, addProject } = useProjects(); // Acessa o array de projetos do contexto
@@ -29,8 +31,19 @@ const ProjectList = () => {
     setNewProjectModalOpen(false);
   };
 
+  const debugConsole = () => {
+    console.log(projects);
+  };
+
   return (
-    <div className="project-list">
+    <ProjectListStyled className="project-list">
+      <button
+        style={{ position: "fixed", top: "1rem", left: "1rem" }}
+        onClick={debugConsole}
+      >
+        Debug Console
+      </button>
+
       {projects.map((project) => (
         <FolderComponent
           key={project.id}
@@ -39,7 +52,7 @@ const ProjectList = () => {
         />
       ))}
 
-      <div className="newProject" onClick={openNewProjectModal}>
+      <NewProjectStyled onClick={openNewProjectModal}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path
             fill="none"
@@ -50,7 +63,7 @@ const ProjectList = () => {
           />
         </svg>
         <p>Add Project</p>
-      </div>
+      </NewProjectStyled>
 
       {/* Modal de Detalhes */}
       {isProjectModalOpen && (
@@ -61,8 +74,38 @@ const ProjectList = () => {
       {isNewProjectModalOpen && (
         <ModalAddProject onClose={closeNewProjectModal} onSave={addProject} />
       )}
-    </div>
+    </ProjectListStyled>
   );
 };
 
+const ProjectListStyled = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  border: 1px solid #ccc;
+  gap: 1rem;
+  width: 800px;
+`;
+
+const NewProjectStyled = styled.div`
+color: hsl(235, 46%, 20%);
+  cursor: pointer;
+  opacity: 0.3;
+  transition: 0.3s ease;
+  position: relative;
+  
+  &:hover {
+    opacity: 1;
+  }
+
+  p {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  padding: 1rem;
+  border-radius: 2rem;
+  font-size: 0.8rem;
+  background-color: hsl(235, 46%, 20%);
+  color: white;
+  transform: translate(-50%, -50%);
+  `;
 export { ProjectList };
