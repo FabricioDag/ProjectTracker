@@ -27,3 +27,57 @@
 //     <p>Gráfico de Horas Trabalhadas por Projeto:</p>
 //     <p>Gráfico de Tarefas Concluídas por Data:</p>
 // </PaperSheet>
+
+let p = [
+  {
+    id: 1,
+    title: "Redesign do Site",
+    description: "Atualização completa do site da empresa",
+    deadline: "2025-01-15",
+    color: "red",
+    todos: [
+      { id: 1, text: "Criar wireframes", completed: true },
+      { id: 2, text: "Desenvolver landing page", completed: false },
+      { id: 3, text: "Poggers", completed: true },
+    ],
+    records: [
+      { date: "2025-01-02", hours: 10 },
+      { date: "2025-01-03", hours: 20 },
+      { date: "2025-01-07", hours: 4 },
+    ],
+  },
+  {
+    id: 2,
+    title: "Dev App",
+    description: "Atualização completa do site da empresa",
+    deadline: "2025-01-15",
+    color: "red",
+    todos: [
+      { id: 1, text: "Criar wireframes", completed: true },
+      { id: 2, text: "Desenvolver landing page", completed: false },
+      { id: 3, text: "Poggers", completed: false },
+    ],
+    records: [
+      { date: "2025-01-02", hours: 8 },
+      { date: "2025-01-03", hours: 25 },
+      { date: "2025-01-07", hours: 4 },
+    ],
+  },
+  {
+    id: 3,
+    title: "Dev Backend",
+    description: "Atualização completa do site da empresa",
+    deadline: "2025-01-15",
+    color: "red",
+    todos: [
+      { id: 1, text: "Criar wireframes", completed: true },
+      { id: 2, text: "Desenvolver landing page", completed: true },
+      { id: 3, text: "Poggers", completed: true },
+    ],
+    records: [
+      { date: "2025-01-02", hours: 5 },
+      { date: "2025-01-03", hours: 1 },
+      { date: "2025-01-07", hours: 5 },
+    ],
+  },
+];

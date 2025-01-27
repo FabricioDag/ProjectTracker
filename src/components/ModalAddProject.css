@@ -1,29 +1,3 @@
-.modalBg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-}
-
-.prancheta {
-  position: relative;
-  background: #af744b;
-  width: 80%;
-  height: 90%;
-  max-width: 600px;
-  padding: 20px;
-  border-radius: 1px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  border-radius: 1rem;
-}
-
 .pegador {
   position: absolute;
   width: 30%;
@@ -35,20 +9,6 @@
   z-index: 100;
 }
 
-.papersheet {
-  position: relative;
-  background: #ebdab3;
-  width: 100%;
-  height: 101%;
-  max-width: 600px;
-  padding: 20px;
-  border-radius: 1px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  font-family: "Special Elite", serif;
-  border: 1px solid #d1d1d1;
-  text-align: center;
-}
-
 .closeModalButton {
   background-color: transparent;
   color: black;
@@ -58,27 +18,6 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-}
-
-form {
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.formHeader {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  text-align: left;
-  /* border: 2px solid aquamarine; */
-}
-
-.formHeader input {
-  background-color: transparent;
-  border: none;
-  padding: 0.5rem;
 }
 
 .titleWrapper {

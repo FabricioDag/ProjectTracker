@@ -6,8 +6,10 @@ import { useState, useEffect } from "react";
 import playIcon from "../assets/play-solid.svg";
 import pauseIcon from "../assets/pause-solid.svg";
 
+import { ModalTargetPomodoro } from "./ModalTargetPomodoro";
+
 const PomodoroComponent = () => {
-  const { addRecord } = useProjects();
+  const { projects, addRecord } = useProjects();
 
   // mover essa lógica para o modal de settings, aqui apenas puxa as infos
   const [workTime, setWorkTime] = useState(
@@ -30,6 +32,8 @@ const PomodoroComponent = () => {
   const [currentTimer, setCurrentTimer] = useState("work");
 
   const [currentSession, setCurrentSession] = useState(0);
+
+  const [isEndindSession, setIsEndingSession] = useState(false);
 
   // Salvando as configurações no localStorage
   useEffect(() => {
@@ -125,10 +129,7 @@ const PomodoroComponent = () => {
 
   const totalTime = getTotalTime();
 
-  const handleEndSession = () => {
-    let target = window.prompt(
-      "A qual processo deseja aplicar a session? " + currentSession
-    );
+  const handleEndSession = (target) => {
     const newRecord = {
       date: new Date().toISOString(),
       hours: 60 / currentSession, // ta errado o calculo!!
@@ -136,6 +137,7 @@ const PomodoroComponent = () => {
 
     addRecord(parseInt(target), newRecord);
     setCurrentSession(0);
+    setIsEndingSession(false);
   };
 
   return (
@@ -147,10 +149,11 @@ const PomodoroComponent = () => {
           <img src={playIcon} alt="Play" />
         )}
       </PlayPauseButton>
+
       <TimerWrapper className="timerWrapper">
         <p>{formatTime(time)}</p>
       </TimerWrapper>
-      <button onClick={handleEndSession}>Reset</button>
+      <button onClick={() => setIsEndingSession(true)}>Reset</button>
 
       <Debug>
         <h2>Debug</h2>
@@ -162,6 +165,8 @@ const PomodoroComponent = () => {
         <p>Current Session: {currentSession}</p>
         <p>Current Cycle: {cycleCount}</p>
       </Debug>
+
+      {isEndindSession && <ModalTargetPomodoro endSession={handleEndSession} />}
     </StyledPomodoroComponent>
   );
 };

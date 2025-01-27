@@ -5,6 +5,8 @@ import "./ModalAddProject.css";
 import trashIcon from "../assets/trash-solid.svg";
 import plusIcon from "../assets/plus-solid.svg";
 
+import styled from "styled-components";
+
 const ModalAddProject = ({ onClose, onSave }) => {
   const [formData, setFormData] = useState({
     title: "",
@@ -87,19 +89,19 @@ const ModalAddProject = ({ onClose, onSave }) => {
   };
 
   return (
-    <div className="modalBg">
-      <div className="prancheta">
+    <ModalBg>
+      <Clipboard>
         <div className="pegador"></div>
 
-        <div className="papersheet">
+        <Papersheet>
           <button onClick={onClose} className="closeModalButton">
             x
           </button>
 
           <h2>Formulário de novo projeto</h2>
 
-          <form onSubmit={handleSubmit}>
-            <div className="formHeader">
+          <StyledForm onSubmit={handleSubmit}>
+            <FormHeader>
               <div className="titleWrapper">
                 <label htmlFor="title">Título:</label>
                 <input
@@ -131,7 +133,7 @@ const ModalAddProject = ({ onClose, onSave }) => {
                   required
                 />
               </div>
-            </div>
+            </FormHeader>
 
             <div className="colorSelector">
               <label>Cor:</label>
@@ -139,7 +141,7 @@ const ModalAddProject = ({ onClose, onSave }) => {
                 {
                   /* Mapeia as cores disponíveis e renderiza um botão para cada uma */
                   colors.map((color) => (
-                    <button
+                    <StyledButton
                       key={color}
                       type="button"
                       className={selectedColor === color ? "selected" : ""}
@@ -229,11 +231,80 @@ const ModalAddProject = ({ onClose, onSave }) => {
               <p>ADICIONAR</p>
               <p>PROJETO</p>
             </button>
-          </form>
-        </div>
-      </div>
-    </div>
+          </StyledForm>
+        </Papersheet>
+      </Clipboard>
+    </ModalBg>
   );
 };
+
+const ModalBg = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+`;
+
+const Clipboard = styled.div`
+  position: relative;
+  background: #af744b;
+  width: 80%;
+  height: 90%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 1px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  border-radius: 1rem;
+`;
+
+const Papersheet = styled.div`
+  position: relative;
+  background: #ebdab3;
+  width: 100%;
+  height: 101%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 1px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  font-family: "Special Elite", serif;
+  border: 1px solid #d1d1d1;
+  text-align: center;
+`;
+
+const StyledForm = styled.form`
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const FormHeader = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  text-align: left;
+  /* border: 2px solid aquamarine; */
+
+  input {
+    background-color: transparent;
+    border: none;
+    padding: 0.5rem;
+  }
+`;
+
+const StyledButton = styled.button`
+  cursor: pointer;
+
+  &.selected {
+    border: 2px solid black;
+  }
+`;
 
 export { ModalAddProject };

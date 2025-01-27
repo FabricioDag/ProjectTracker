@@ -50,7 +50,7 @@ const FolderComponent = ({ project, onClick }) => {
       </FrontFolderOverlay>
 
       <TextWrapper>
-        <h1>{workedHours > 0 ? `${workedHours}h` : "<1h"}</h1>
+        <h1>{workedHours > 0 ? `${workedHours.toFixed(1)}h` : "<1h"}</h1>
         <p>{project.title}</p>
         {/* <p>{percentage}</p> */}
       </TextWrapper>

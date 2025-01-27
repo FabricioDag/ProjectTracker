@@ -83,15 +83,18 @@ const ProjectListStyled = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   border: 1px solid #ccc;
   gap: 1rem;
-  width: 800px;
+  max-width: 800px;
 `;
 
 const NewProjectStyled = styled.div`
-color: hsl(235, 46%, 20%);
+  border:2px solid red;
+  color: hsl(235, 46%, 20%);
   cursor: pointer;
   opacity: 0.3;
   transition: 0.3s ease;
   position: relative;
+  width: 200px;
+  height: 200px;
   
   &:hover {
     opacity: 1;

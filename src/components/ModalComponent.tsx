@@ -1,5 +1,5 @@
-import "./ModalComponent.css";
 import { motion } from "motion/react";
+import styled from "styled-components";
 
 const ModalComponent = ({ project, onClose }) => {
   const modalVariants = {
@@ -7,65 +7,70 @@ const ModalComponent = ({ project, onClose }) => {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { type: "spring", stiffness: 100 },
+      transition: { type: "ease", stiffness: 100 },
     },
     exit: { y: "100vh", opacity: 0, transition: { duration: 0.5 } },
   };
 
   const completedTodos = project.todos.filter((todo) => todo.completed).length;
+  const TotalWorkedHours = project.records.reduce(
+    (acc, record) => acc + record.hours,
+    0
+  );
 
   const toggleTodoCompletion = (index) => {
     project.todos[index].completed = !project.todos[index].completed;
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <motion.div
-        className="modal-content"
+    <StyledBg onClick={onClose}>
+      <StyledModal
         variants={modalVariants}
         initial="hidden"
         animate="visible"
         exit="exit"
         onClick={(e) => e.stopPropagation()}
       >
-        <button className="close-button" onClick={onClose}>
-          &times;
-        </button>
+        <StyledButton onClick={onClose}>&times;</StyledButton>
 
-        <div className="projectHeader">
+        <ProjectHeader>
           <div className="titleWrapper">
             <span>Titulo:</span>
-            <p className="titleHeader">{project.title}</p>
+            <TitleHeader>{project.title}</TitleHeader>
           </div>
 
           <div className="deadlineWrapper">
             <span>Deadline:</span>
-            <p className="deadlineHeader">{project.deadline}</p>
+            <DeadlineHeader>{project.deadline}</DeadlineHeader>
           </div>
 
           <div className="descriptionWrapper">
             <span>Descrição:</span>
-            <p className="descriptionHeader">{project.description}</p>
+            <DescriptionHeader>{project.description}</DescriptionHeader>
           </div>
-        </div>
+        </ProjectHeader>
 
-        <div className="todo-container">
+        <StyledTotalWorkedHours>
+          Total de horas trabalhadas: {TotalWorkedHours}
+        </StyledTotalWorkedHours>
+
+        <TodoContainer>
           <legend>Lista de Tarefas</legend>
           <p>
             Progresso: {completedTodos}/{project.todos.length}
           </p>
-          <ul className="todo-list">
+          <TodoList>
             {project.todos.map((todo, index) => (
-              <li
+              <TodoItem
                 onClick={() => toggleTodoCompletion(index)}
                 key={index}
-                className={`todo-item ${todo.completed ? "completed" : ""}`}
+                className={`${todo.completed ? "completed" : ""}`}
               >
                 {todo.text}
-              </li>
+              </TodoItem>
             ))}
-          </ul>
-        </div>
+          </TodoList>
+        </TodoContainer>
 
         <p>Records: </p>
         <hr />
@@ -76,11 +81,120 @@ const ModalComponent = ({ project, onClose }) => {
             <hr />
           </div>
         ))}
-
-        <p>horas trabalhadas</p>
-      </motion.div>
-    </div>
+      </StyledModal>
+    </StyledBg>
   );
 };
+
+const StyledBg = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const StyledModal = styled(motion.div)`
+  position: relative;
+  background: #ebdab3;
+  width: 80%;
+  height: 90%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 1px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  /* transform: rotate(-2deg); */
+  font-family: "Special Elite", serif;
+  border: 1px solid #d1d1d1;
+  /* background: linear-gradient(145deg, #fff 90%, #f0f0f0 10%); */
+  text-align: center;
+`;
+
+const StyledButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+`;
+
+const ProjectHeader = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  text-align: left;
+`;
+
+const TitleHeader = styled.p`
+  border-bottom: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  grid-column: span 3;
+`;
+
+const DeadlineHeader = styled.p`
+  border-bottom: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  text-align: center;
+`;
+
+const DescriptionHeader = styled.p`
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  grid-column: span 4;
+  padding: 0.5rem;
+`;
+
+const StyledTotalWorkedHours = styled.p`
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  grid-column: span 4;
+  padding: 0.5rem;
+`;
+
+const TodoContainer = styled.div`
+  // border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+`;
+
+const TodoList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+`;
+
+const TodoItem = styled.li`
+  /* border: 2px solid salmon; */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+
+  hover {
+    color: black;
+  }
+
+  &.completed {
+    text-decoration: line-through;
+    color: #888;
+  }
+`;
 
 export { ModalComponent };
