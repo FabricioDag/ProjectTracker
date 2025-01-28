@@ -2,34 +2,45 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useProjects } from "../context/ProjectContext"; // Hook personalizado
 
-const ModalTargetPomodoro = ({ endSession }) => {
+const ModalTargetPomodoro = ({ endSession,setIsEndingSession, currentSession }) => {
   const { projects } = useProjects();
 
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedProject, setSelectedProject] = useState(projects[0].id);
 
   const handleSelectProject = (e) => {
     setSelectedProject(e.target.value);
   };
 
+  const debugClick = () =>{
+    alert('chegou em debugclick, SelectedProject: '+ selectedProject)
+
+    endSession(selectedProject)
+  }
+
   return (
     <ModalBg>
       <ModalContainer>
-        <h2>Seção Finalizada</h2>
+        <h2>Seção Finalizada {currentSession}</h2>
         <p>Deseja atribuir essa seção à qual projeto?</p>
+        {projects.map((project) => (
+            <p key={project.id} value={project.id}>
+              TitleProject:{project.title}
+            </p>
+          ))}
 
         <select onChange={handleSelectProject}>
           {projects.map((project) => (
             <option key={project.id} value={project.id}>
-              {project.name}
+              {project.title}/{project.id}
             </option>
           ))}
         </select>
 
-        <ButtonConfirm onClick={() => endSession(selectedProject)}>
+        <ButtonConfirm onClick={() => debugClick()}>
           Salvar
         </ButtonConfirm>
 
-        <ButtonDiscart>Descartar</ButtonDiscart>
+        <ButtonDiscart onClick={()=>setIsEndingSession(false)}>Descartar</ButtonDiscart>
       </ModalContainer>
     </ModalBg>
   );

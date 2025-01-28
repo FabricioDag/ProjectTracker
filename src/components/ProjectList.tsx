@@ -79,11 +79,18 @@ const ProjectList = () => {
 };
 
 const ProjectListStyled = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  border: 1px solid #ccc;
-  gap: 1rem;
-  max-width: 800px;
+display: grid;
+width: 100vw;
+grid-template-columns: repeat(
+  auto-fit,
+  minmax(200px, 1fr)
+); /* Cada coluna terá pelo menos 200px */
+gap: 16px; /* Espaço entre os itens */
+padding: 16px;
+border: 2px solid gold;
+/* Centralização */
+justify-items: center; 
+align-items: center; 
 `;
 
 const NewProjectStyled = styled.div`

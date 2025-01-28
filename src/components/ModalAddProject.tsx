@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-import "./ModalAddProject.css";
-
 import trashIcon from "../assets/trash-solid.svg";
 import plusIcon from "../assets/plus-solid.svg";
 
@@ -91,18 +89,18 @@ const ModalAddProject = ({ onClose, onSave }) => {
   return (
     <ModalBg>
       <Clipboard>
-        <div className="pegador"></div>
+        <Pegador ></Pegador>
 
         <Papersheet>
-          <button onClick={onClose} className="closeModalButton">
+          <CloseModalButton onClick={onClose}>
             x
-          </button>
+          </CloseModalButton>
 
           <h2>Formulário de novo projeto</h2>
 
           <StyledForm onSubmit={handleSubmit}>
             <FormHeader>
-              <div className="titleWrapper">
+              <TitleWrapper>
                 <label htmlFor="title">Título:</label>
                 <input
                   type="text"
@@ -111,9 +109,9 @@ const ModalAddProject = ({ onClose, onSave }) => {
                   onChange={handleChange}
                   required
                 />
-              </div>
+              </TitleWrapper>
 
-              <div className="deadlineWrapper">
+              <DeadlineWrapper>
                 <label htmlFor="deadline">Deadline</label>
                 <input
                   type="date"
@@ -122,9 +120,9 @@ const ModalAddProject = ({ onClose, onSave }) => {
                   onChange={handleChange}
                   required
                 />
-              </div>
+              </DeadlineWrapper>
 
-              <div className="descriptionWrapper">
+              <DescriptionWrapper>
                 <label htmlFor="description">Descrição:</label>
                 <textarea
                   name="description"
@@ -132,12 +130,12 @@ const ModalAddProject = ({ onClose, onSave }) => {
                   onChange={handleChange}
                   required
                 />
-              </div>
+              </DescriptionWrapper>
             </FormHeader>
 
-            <div className="colorSelector">
+            <StyledColorSelector>
               <label>Cor:</label>
-              <div className="colorWrapper">
+              <ColorWrapper>
                 {
                   /* Mapeia as cores disponíveis e renderiza um botão para cada uma */
                   colors.map((color) => (
@@ -150,40 +148,39 @@ const ModalAddProject = ({ onClose, onSave }) => {
                     />
                   ))
                 }
-              </div>
-            </div>
+              </ColorWrapper>
+            </StyledColorSelector>
 
             {/* Gerenciamento dos TODOs */}
 
-            <div className="todoArea">
+            <TodoArea>
               <legend>Lista de Tarefas</legend>
               {formData.todos.map((todo) => (
-                <li className="todoWrapper" key={todo.id}>
+                <TodoWrapper key={todo.id}>
                   {todo.text}{" "}
-                  <button
-                    className="removeButton"
+                  <RemoveButton
                     type="button"
                     onClick={() => removeTodo(todo.id)}
                   >
                     <img src={trashIcon} alt="trash icon" />
-                  </button>
-                </li>
+                  </RemoveButton>
+                </TodoWrapper>
               ))}
 
               <div className="todoInput">
-                <div className="inputWrapper">
+                <InputWrapper>
                   <input
                     type="text"
                     value={todoInput}
                     onChange={(e) => setTodoInput(e.target.value)}
                     placeholder="Nova Tarefa"
                   />
-                  <button className="addButton" type="button" onClick={addTodo}>
+                  <AddButton type="button" onClick={addTodo}>
                     <img src={plusIcon} alt="plus icon" />
-                  </button>
-                </div>
+                  </AddButton>
+                </InputWrapper>
               </div>
-            </div>
+            </TodoArea>
 
             {/* Gerenciamento dos registros de horas */}
 
@@ -227,10 +224,10 @@ const ModalAddProject = ({ onClose, onSave }) => {
             ))}
           </ul> */}
 
-            <button className="addProjectButton" type="submit">
+            <AddProjectButton type="submit">
               <p>ADICIONAR</p>
               <p>PROJETO</p>
-            </button>
+            </AddProjectButton>
           </StyledForm>
         </Papersheet>
       </Clipboard>
@@ -250,6 +247,28 @@ const ModalBg = styled.div`
   align-items: center;
   z-index: 100;
 `;
+
+const CloseModalButton = styled.button`
+background-color: transparent;
+color: black;
+border: none;
+cursor: pointer;
+font-size: 1.5rem;
+position: absolute;
+top: 1rem;
+right: 1rem;
+`
+
+const Pegador = styled.div`
+position: absolute;
+  width: 30%;
+  height: 3rem;
+  background-color: gray;
+  top: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+`
 
 const Clipboard = styled.div`
   position: relative;
@@ -297,6 +316,12 @@ const FormHeader = styled.div`
     border: none;
     padding: 0.5rem;
   }
+
+  textarea{
+    background-color: transparent;
+  border: 1px solid black;
+  padding: 0.5rem;
+  }
 `;
 
 const StyledButton = styled.button`
@@ -306,5 +331,122 @@ const StyledButton = styled.button`
     border: 2px solid black;
   }
 `;
+
+const TitleWrapper = styled.div`
+border-bottom: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  grid-column: span 3;
+`
+
+const DeadlineWrapper = styled.div`
+display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-bottom: 1px solid black;
+`
+
+const DescriptionWrapper = styled.div`
+/* border: 1px solid black; */
+display: flex;
+flex-direction: column;
+gap: 0.3rem;
+grid-column: span 4;
+`
+
+const StyledColorSelector = styled.div`
+/* border: 2px solid rgb(235, 74, 74); */
+width: 100%;
+display: flex;
+flex-direction: column;
+gap: 0.5rem;
+text-align: left;
+align-items: center;
+`
+
+const ColorWrapper = styled.div`
+  display: flex;
+  gap: 1rem;
+  /* border: 2px solid red; */
+
+  button{
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid black;
+    cursor: pointer;
+  }
+`
+
+const TodoArea = styled.div`
+/* border: 2px solid red; */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+`
+const TodoWrapper = styled.li`
+/* border: 2px solid salmon; */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`
+
+const RemoveButton = styled.button`
+width: 1rem;
+height: 1rem;
+background-color: none;
+border: none;
+
+img{
+  height: 100%;
+}
+`
+const InputWrapper = styled.div`
+display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  /* border: 2px solid green; */
+  border-bottom: 1px solid black;
+
+  input{
+    background-color: transparent;
+  border: none;
+  padding: 0.5rem;
+  }
+`
+const AddButton = styled.button`
+width: 1rem;
+  height: 1rem;
+  background-color: none;
+  border: none;
+
+  img{
+    height: 100%;
+  }
+`
+
+
+const AddProjectButton = styled.button`
+  background-color: transparent;
+  font-size: 1rem;
+  color: #9a9595;
+  padding: 0.5rem 1.5rem;
+  border: 3px solid #9a9595;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-weight: bold;
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  transform: rotate(-3deg);
+
+  &hover{
+    color: #b20a0a;
+    border: 3px solid #b20a0a;
+  }
+` 
+
 
 export { ModalAddProject };

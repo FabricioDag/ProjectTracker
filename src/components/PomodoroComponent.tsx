@@ -7,6 +7,7 @@ import playIcon from "../assets/play-solid.svg";
 import pauseIcon from "../assets/pause-solid.svg";
 
 import { ModalTargetPomodoro } from "./ModalTargetPomodoro";
+import {RingBar} from './RingBar'
 
 const PomodoroComponent = () => {
   const { projects, addRecord } = useProjects();
@@ -132,7 +133,7 @@ const PomodoroComponent = () => {
   const handleEndSession = (target) => {
     const newRecord = {
       date: new Date().toISOString(),
-      hours: 60 / currentSession, // ta errado o calculo!!
+      hours: currentSession/60,
     };
 
     addRecord(parseInt(target), newRecord);
@@ -140,7 +141,16 @@ const PomodoroComponent = () => {
     setIsEndingSession(false);
   };
 
+  const handleClickEndSession = () =>{
+    if(currentSession>0){
+      setIsEndingSession(true)
+    }else alert('A sessão nao pode ser de 0 minutos')
+  }
+
+  const progress = 1 - time / workTime
+
   return (
+    <>
     <StyledPomodoroComponent className="pomodoroComponent">
       <PlayPauseButton onClick={handleClick}>
         {isTimerRunning ? (
@@ -153,7 +163,11 @@ const PomodoroComponent = () => {
       <TimerWrapper className="timerWrapper">
         <p>{formatTime(time)}</p>
       </TimerWrapper>
-      <button onClick={() => setIsEndingSession(true)}>Reset</button>
+
+      <RingBar
+        progress={progress}
+      ></RingBar>
+      <button onClick={handleClickEndSession}>Finalizar Seção</button>
 
       <Debug>
         <h2>Debug</h2>
@@ -166,8 +180,9 @@ const PomodoroComponent = () => {
         <p>Current Cycle: {cycleCount}</p>
       </Debug>
 
-      {isEndindSession && <ModalTargetPomodoro endSession={handleEndSession} />}
     </StyledPomodoroComponent>
+    {isEndindSession && <ModalTargetPomodoro endSession={handleEndSession} setIsEndingSession={setIsEndingSession} currentSession={currentSession}/>}
+    </>
   );
 };
 

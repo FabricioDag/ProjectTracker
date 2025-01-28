@@ -1,0 +1,47 @@
+.ring-bar {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--size);
+    height: var(--size);
+  }
+  
+  .ring-bar__svg {
+    transform: rotate(-90deg);
+  }
+  
+  .ring-bar__circle {
+    fill: none;
+    stroke-width: var(--stroke-width);
+  }
+  
+  .ring-bar__circle--background {
+    stroke: var(--background-color);
+  }
+  
+  .ring-bar__circle--progress {
+    stroke: var(--progress-color);
+    stroke-dasharray: var(--circumference);
+    stroke-dashoffset: var(--offset);
+    transition: stroke-dashoffset 0.5s linear;
+    transform-origin: 50% 50%;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .timer-ring-bar {
+    animation: pulse 2s infinite;
+  }
+  
+  
