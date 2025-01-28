@@ -32,7 +32,7 @@ O **Project Tracker** é uma aplicação simples e intuitiva para gerenciar proj
 
 ## 💻 Demonstração
 
-[Adicione aqui screenshots ou um link para a aplicação hospedada, como Vercel, Netlify ou GitHub Pages.]
+Em breve.
 
 ---
 
