@@ -1,50 +1,79 @@
-# React + TypeScript + Vite
+# Project Tracker - MVP de Janeiro 2025
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é o primeiro MVP do meu desafio de 2025, no qual planejo desenvolver um MVP por mês. O **Project Tracker** é uma aplicação feita com **React** para facilitar o acompanhamento de projetos e tarefas.
 
-Currently, two official plugins are available:
+## 🗃️ Índice
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. [Visão Geral](#-visão-geral)
+2. [Funcionalidades](#-funcionalidades)
+3. [Demonstração](#-demonstração)
+4. [Tecnologias Utilizadas](#-tecnologias-utilizadas)
+5. [Como Usar](#-como-usar)
+6. [Próximos Passos](#-próximos-passos)
+7. [Licença](#-licença)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 📚 Visão Geral
 
-- Configure the top-level `parserOptions` property like this:
+O **Project Tracker** é uma aplicação simples e intuitiva para gerenciar projetos, tarefas e status. A ideia central é fornecer um fluxo de trabalho visual e organizado para equipes ou indivíduos acompanharem o progresso de suas atividades.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## ✨ Funcionalidades
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- [ ] Criar, editar e excluir projetos.
+- [ ] Adicionar tarefas a cada projeto com prazos e prioridades.
+- [ ] Atualizar o status das tarefas (A fazer, Em andamento, Concluído).
+- [ ] Visualizar o progresso geral de cada projeto.
+- [ ] Interface responsiva e amigável.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+---
+
+## 💻 Demonstração
+
+[Adicione aqui screenshots ou um link para a aplicação hospedada, como Vercel, Netlify ou GitHub Pages.]
+
+---
+
+## 🛠 Tecnologias Utilizadas
+
+- **React** para construção da interface.
+- **TypeScript** para maior segurança no desenvolvimento.
+- **React Router** para navegação entre páginas.
+- [Outras ferramentas ou bibliotecas, se aplicável].
+
+---
+
+## 🚀 Como Usar
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/project-tracker.git
+   ```
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+3. Inicie o servidor de desenvolvimento:
+   ```bash
+   npm run dev
+   ```
+4. Acesse o aplicativo em `http://localhost:3000`.
+
+Ou acesse a Live Version pelo link: (em breve)
+
+---
+
+## 📅 Próximos Passos
+
+- [ ] Implementar sistema de autenticação para usuários.
+- [ ] Integração com API para sincronização em tempo real.
+- [ ] Melhorias na acessibilidade (A11y).
+- [ ] Adicionar testes unitários e de integração.
+
+---
+
+## 📜 Licença
+
+Este projeto está licenciado sob a [MIT License](LICENSE).
