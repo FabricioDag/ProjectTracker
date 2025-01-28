@@ -125,6 +125,10 @@ const TextWrapper = styled.div`
     font-size: 2.5rem;
     font-weight: normal;
   }
+
+  p{
+    text-transform: capitalize;
+  }
 `;
 
 export { FolderComponent };

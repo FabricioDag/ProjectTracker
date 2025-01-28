@@ -95,7 +95,7 @@ const PomodoroComponent = () => {
     if (isTimerRunning && time > 0) {
       interval = setInterval(() => {
         setTime(time - 1);
-      }, 1);
+      }, 100);
 
       // ciclo termina dps de um intervalo
     } else if (time === 0) {
@@ -161,12 +161,13 @@ const PomodoroComponent = () => {
       </PlayPauseButton>
 
       <TimerWrapper className="timerWrapper">
-        <p>{formatTime(time)}</p>
+        <RingBar
+          progress={progress}
+        ></RingBar>
+        <Timer>{formatTime(time)}</Timer>
       </TimerWrapper>
 
-      <RingBar
-        progress={progress}
-      ></RingBar>
+      
       <button onClick={handleClickEndSession}>Finalizar Seção</button>
 
       <Debug>
@@ -216,13 +217,16 @@ const TimerWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
   position: absolute;
   left: 50%;
   top: -75%;
   transform: translateX(-50%);
   border: 2px solid red;
 `;
+
+const Timer = styled.p`
+  position:absolute;
+`
 
 const PlayPauseButton = styled.button`
   background-color: transparent;

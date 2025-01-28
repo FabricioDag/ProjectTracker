@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 
+import correctIcon from '../assets/correct.svg'
+import arrowIcon from '../assets/arrow.svg'
+
 interface SidebarMenuProps {
   togglePomodoro: (state: boolean) => void;
   pomodoroState: boolean;
@@ -20,19 +23,39 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
 
   return (
     <SideBar className={`sidebar ${isOpen ? "open" : ""}`}>
-      <ToggleButton onClick={toggleMenu}>☰</ToggleButton>
+      <ToggleButton onClick={toggleMenu} className={`sidebar ${isOpen ? "open" : ""}`}>
+        <img src={arrowIcon} alt="arrowIcon" />
+      </ToggleButton>
       <Menu>
-        <li>
-          <Link to="/projects">Projects</Link>
-        </li>
-        <li>
-          <Link to="/dashboard">Dashboard</Link>
-        </li>
-        <li>
-          <Link to="/">Settings</Link>
-        </li>
+        <Link to="/projects">
+          <li>
+            <p>Projects</p>
+          </li>
+        </Link>
+
+        <Link to="/dashboard">
+          <li>
+            <p>Dashboard</p>
+          </li>
+        </Link>
+
+        <Link to="/dashboard">
+          <li>
+            <p>Dashboard</p>
+          </li>
+        </Link>
+        
         <li onClick={() => togglePomodoro(!pomodoroState)}>
-          Pomodoro {pomodoroState ? "true" : "false"}
+          <p>Pomodoro</p>
+          
+          <Checkbox>
+
+            {pomodoroState ? (
+              <img src={correctIcon} alt="correctIcon" />
+            ) : ""}
+            
+          </Checkbox>
+          
         </li>
       </Menu>
     </SideBar>
@@ -69,9 +92,24 @@ const ToggleButton = styled.button`
   font-size: 20px;
   border-radius: 1rem 0 0 1rem;
   transition: 0.3s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-  &:hover {
-    background-color: #34495e;
+  &:hover img{
+    width:1.3rem;
+    height:1.3rem;
+  }
+
+  img{
+    width:1.2rem;
+    height:1.2rem;
+    //border:2px solid red;
+    transition:.2s ease
+  }
+
+  &.open img{
+    transform: rotate(-180deg);
   }
 `;
 
@@ -79,8 +117,16 @@ const Menu = styled.ul`
   list-style: none;
   padding: 0;
   margin-top: 50px;
+  
+  a{
+    text-decoration:none;
+    color:inherit;
+  }
 
   li {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
     margin: 15px 0;
     padding: 10px;
     cursor: pointer;
@@ -94,5 +140,19 @@ const Menu = styled.ul`
     }
   }
 `;
+
+const Checkbox = styled.div`
+  height:1.3rem;
+  width:1.3rem;
+  border:1px solid white;
+  position:relative;
+
+  img{
+    position:absolute;
+    width:120%;
+    top:10%;
+    left:10%
+  }
+`
 
 export { SidebarMenu };
