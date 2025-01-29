@@ -5,6 +5,7 @@ import "./App.css";
 
 import { PomodoroComponent } from "./components/PomodoroComponent";
 import { SidebarMenu } from "./components/SidebarMenu";
+import {CustomCursor} from './components/CustomCursor'
 import { ProjectProvider } from "./context/ProjectContext";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
   return (
     <ProjectProvider>
       <div className="App">
+        {/* <CustomCursor /> */}
         <SidebarMenu
           togglePomodoro={setIsPomodoroOpen}
           pomodoroState={isPomodoroOpen}

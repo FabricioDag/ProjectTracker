@@ -20,18 +20,14 @@ const ModalTargetPomodoro = ({ endSession,setIsEndingSession, currentSession }) 
   return (
     <ModalBg>
       <ModalContainer>
-        <h2>Seção Finalizada {currentSession}</h2>
-        <p>Deseja atribuir essa seção à qual projeto?</p>
-        {projects.map((project) => (
-            <p key={project.id} value={project.id}>
-              TitleProject:{project.title}
-            </p>
-          ))}
+        <h2>Seção Finalizada {(currentSession/60).toFixed(2)}h</h2>
+        <p>Deseja atribuir essa sessão à qual projeto?</p>
+       
 
         <select onChange={handleSelectProject}>
           {projects.map((project) => (
             <option key={project.id} value={project.id}>
-              {project.title}/{project.id}
+              {project.title}
             </option>
           ))}
         </select>
@@ -47,12 +43,12 @@ const ModalTargetPomodoro = ({ endSession,setIsEndingSession, currentSession }) 
 };
 
 const ModalBg = styled.div`
-  //   position: fixed;
-  //   top: 0;
-  //   left: 0;
-  //   width: 100%;
-  //   height: 100%;
-  //   background-color: rgba(0, 0, 0, 0.5);
+     position: fixed;
+     top: 0;
+    left: 0;
+     width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const ModalContainer = styled.div`
@@ -60,6 +56,7 @@ const ModalContainer = styled.div`
   position: fixed;
   display: flex;
   flex-direction: column;
+  justify-content:space-between;
   top: 50%;
   left: 50%;
   width: 300px;

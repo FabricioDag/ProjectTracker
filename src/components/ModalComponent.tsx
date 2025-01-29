@@ -34,24 +34,24 @@ const ModalComponent = ({ project, onClose }) => {
         <StyledButton onClick={onClose}>&times;</StyledButton>
 
         <ProjectHeader>
-          <div className="titleWrapper">
+          <TitleWrapper>
             <span>Titulo:</span>
             <TitleHeader>{project.title}</TitleHeader>
-          </div>
+          </TitleWrapper>
 
-          <div className="deadlineWrapper">
+          <DeadlineWrapper>
             <span>Deadline:</span>
-            <DeadlineHeader>{project.deadline}</DeadlineHeader>
-          </div>
+            <DeadlineHeader>{new Date(project.deadline).toLocaleDateString('pt-BR')}</DeadlineHeader>
+          </DeadlineWrapper>
 
-          <div className="descriptionWrapper">
+          <DescriptionWrapper>
             <span>Descrição:</span>
             <DescriptionHeader>{project.description}</DescriptionHeader>
-          </div>
+          </DescriptionWrapper>
         </ProjectHeader>
 
         <StyledTotalWorkedHours>
-          Total de horas trabalhadas: {TotalWorkedHours}
+          Total de horas trabalhadas: {TotalWorkedHours.toFixed(2)}
         </StyledTotalWorkedHours>
 
         <TodoContainer>
@@ -72,15 +72,18 @@ const ModalComponent = ({ project, onClose }) => {
           </TodoList>
         </TodoContainer>
 
-        <p>Records: </p>
         <hr />
-        {project.records.map((record, index) => (
-          <div key={index}>
-            <p>Data: {record.date}</p>
-            <p>Horas: {record.hours}h</p>
-            <hr />
+        
+        <RecordsContainer>
+        <legend>Records</legend>
+          {project.records.map((record, index) => (
+           <div key={index}>
+            <p>Data: {new Date(record.date).toLocaleDateString('pt-BR')}</p>
+            <p>Horas: {(record.hours.toFixed(2))}h</p>
           </div>
         ))}
+        </RecordsContainer>
+        
       </StyledModal>
     </StyledBg>
   );
@@ -101,6 +104,9 @@ const StyledBg = styled.div`
 
 const StyledModal = styled(motion.div)`
   position: relative;
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
   background: #ebdab3;
   width: 80%;
   height: 90%;
@@ -108,10 +114,8 @@ const StyledModal = styled(motion.div)`
   padding: 20px;
   border-radius: 1px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  /* transform: rotate(-2deg); */
   font-family: "Special Elite", serif;
   border: 1px solid #d1d1d1;
-  /* background: linear-gradient(145deg, #fff 90%, #f0f0f0 10%); */
   text-align: center;
 `;
 
@@ -131,31 +135,48 @@ const ProjectHeader = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   text-align: left;
+  //outline:2px solid red;
 `;
+
+const TitleWrapper = styled.div`
+border-bottom: 1px solid black;
+display: flex;
+flex-direction: column;
+gap: 0.3rem;
+grid-column: span 3;
+
+//outline:2px solid blue;
+`
 
 const TitleHeader = styled.p`
-  border-bottom: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  grid-column: span 3;
+  
 `;
+
+const DeadlineWrapper = styled.div`
+border-bottom: 1px solid black;
+display: flex;
+flex-direction: column;
+gap: 0.3rem;
+text-align: center;
+
+//outline:2px solid green;
+`
 
 const DeadlineHeader = styled.p`
-  border-bottom: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  text-align: center;
+  
 `;
 
+const DescriptionWrapper = styled.div`
+border: 1px solid black;
+display: flex;
+flex-direction: column;
+gap: 0.3rem;
+grid-column: span 4;
+padding: 0.5rem;
+`
+
 const DescriptionHeader = styled.p`
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  grid-column: span 4;
-  padding: 0.5rem;
+  
 `;
 
 const StyledTotalWorkedHours = styled.p`
@@ -196,5 +217,13 @@ const TodoItem = styled.li`
     color: #888;
   }
 `;
+
+const RecordsContainer = styled.div`
+// border: 2px solid red;
+display: flex;
+flex-direction: column;
+gap: 1rem;
+align-items: center;
+`
 
 export { ModalComponent };

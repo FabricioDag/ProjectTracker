@@ -13,6 +13,7 @@ const PomodoroComponent = () => {
   const { projects, addRecord } = useProjects();
 
   // mover essa lógica para o modal de settings, aqui apenas puxa as infos
+  // trasnformar em só 1 state
   const [workTime, setWorkTime] = useState(
     () => Number(localStorage.getItem("workTime")) || 1500
   );
@@ -95,7 +96,7 @@ const PomodoroComponent = () => {
     if (isTimerRunning && time > 0) {
       interval = setInterval(() => {
         setTime(time - 1);
-      }, 100);
+      }, 1);
 
       // ciclo termina dps de um intervalo
     } else if (time === 0) {
@@ -139,15 +140,17 @@ const PomodoroComponent = () => {
     addRecord(parseInt(target), newRecord);
     setCurrentSession(0);
     setIsEndingSession(false);
+    setCurrentTimer('work')
+    setCycleCount(0)
   };
 
   const handleClickEndSession = () =>{
-    if(currentSession>0){
+    if(currentSession >= (workTime/60)){
       setIsEndingSession(true)
-    }else alert('A sessão nao pode ser de 0 minutos')
+    }else alert(`A sessão deve ser de no minimo ${workTime/60} minutos (1 Pomodoro)`)
   }
 
-  const progress = 1 - time / workTime
+  const progress = 1 - (time / workTime)
 
   return (
     <>
@@ -168,7 +171,7 @@ const PomodoroComponent = () => {
       </TimerWrapper>
 
       
-      <button onClick={handleClickEndSession}>Finalizar Seção</button>
+      <EndSessionButton onClick={handleClickEndSession}>Finalizar Seção</EndSessionButton>
 
       <Debug>
         <h2>Debug</h2>
@@ -186,6 +189,22 @@ const PomodoroComponent = () => {
     </>
   );
 };
+
+const EndSessionButton = styled.button`
+  padding:.3rem;
+  border:2px solid white;
+  color:white;
+  font-weight:bold;
+  background-color:transparent;
+  border-radius:.3rem;
+  transition:.2s ease;
+  opacity:0.5;
+  cursor:pointer;
+
+  &:hover{
+    opacity:1;
+  }
+`
 
 const Debug = styled.div`
   position: absolute;
@@ -211,17 +230,18 @@ const StyledPomodoroComponent = styled.div`
 `;
 
 const TimerWrapper = styled.div`
-  height: 5rem;
-  width: 5rem;
+  height: 70px;
+  width: 70px;
   background-color: #1e204c;
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
   left: 50%;
-  top: -75%;
+  top: -50%;
   transform: translateX(-50%);
-  border: 2px solid red;
+  border-radius:50%;
+  //outline: 2px solid red;
 `;
 
 const Timer = styled.p`

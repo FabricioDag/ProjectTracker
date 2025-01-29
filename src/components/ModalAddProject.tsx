@@ -442,7 +442,7 @@ const AddProjectButton = styled.button`
   right: 2rem;
   transform: rotate(-3deg);
 
-  &hover{
+  &:hover{
     color: #b20a0a;
     border: 3px solid #b20a0a;
   }

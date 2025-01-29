@@ -39,11 +39,11 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
           </li>
         </Link>
 
-        <Link to="/dashboard">
+        {/* <Link to="/dashboard">
           <li>
             <p>Dashboard</p>
           </li>
-        </Link>
+        </Link> */}
         
         <li onClick={() => togglePomodoro(!pomodoroState)}>
           <p>Pomodoro</p>

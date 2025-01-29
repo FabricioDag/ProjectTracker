@@ -1,111 +1,86 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useProjects } from "../context/ProjectContext";
 import styled from "styled-components";
-import { h1 } from "motion/react-client";
+
+const tabColors = ["#EEE6D5", "#FEC9D3", "#BAEEFF"];
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const { projects } = useProjects();
 
-  const { projects } = useProjects(); // Acessa o array de projetos do contexto
-  let nextDeliveryDate = projects.reduce((acc, project) => {
-    if (project.deadline < acc) {
-      return project.deadline;
-    }
-    return acc;
-  }, projects[0].deadline);
+  // Evitar bug se a lista estiver vazia
+  const nextDeliveryDate = projects.length
+    ? projects.reduce((acc, project) => (project.deadline < acc ? project.deadline : acc), projects[0].deadline)
+    : "Sem prazos definidos";
 
-  let totalWorkedHours = projects.reduce((acc, project) => {
-    return (
-      acc +
-      project.records.reduce((acc, record) => {
-        return acc + record.hours;
-      }, 0)
-    );
-  }, 0);
+  const totalWorkedHours = projects.reduce(
+    (acc, project) => acc + project.records.reduce((acc, record) => acc + record.hours, 0),
+    0
+  );
 
-  let meanHoursWorked = (totalWorkedHours / projects.length).toFixed(2);
+  const meanHoursWorked = projects.length ? (totalWorkedHours / projects.length).toFixed(2) : "0";
 
-  let efiency = projects.reduce((acc, project) => {
-    let totalTodos = project.todos.length;
-    let totalCompletedTodos = project.todos.reduce((acc, todo) => {
-      return todo.completed ? acc + 1 : acc;
-    }, 0);
-    return acc + totalCompletedTodos / totalTodos;
-  }, 0);
+  const efficiency = projects.length
+    ? (
+        projects.reduce((acc, project) => {
+          const totalTodos = project.todos.length || 1; // Evita divisão por zero
+          const totalCompletedTodos = project.todos.filter(todo => todo.completed).length;
+          return acc + totalCompletedTodos / totalTodos;
+        }, 0) / projects.length
+      ).toFixed(2)
+    : "0";
 
-  let tabs = [
+  const handleTabClick = useCallback((index: number) => {
+    setActiveTab(index);
+  }, []);
+
+  const tabs = [
     {
       label: "Resumo dos Projetos",
       content: (
-        <div>
-          <h2>Resumo dos Projetos</h2>
+        <TabContent title="Resumo dos Projetos">
           <p>Projetos Registrados: {projects.length}</p>
-          <p>Projetos Pendentes</p>
-          <p>Projetos Concluídos</p>
           <p>Data de entrega mais próxima: {nextDeliveryDate}</p>
-        </div>
+        </TabContent>
       ),
     },
     {
       label: "Progresso Geral",
       content: (
-        <div>
-          <h2>Progresso Geral</h2>
-          <p>Progresso Médio de Todos os Projetos:</p>
-          <p>Tarefas Concluídas vs Tarefas Pendentes:</p>
-        </div>
+        <TabContent title="Progresso Geral">
+          <p>Progresso Médio de Todos os Projetos: {efficiency}%</p>
+        </TabContent>
       ),
     },
     {
       label: "Registro de Horas",
       content: (
-        <div>
-          <h2>Registro de Horas</h2>
+        <TabContent title="Registro de Horas">
           <p>Total de Horas Trabalhadas: {totalWorkedHours}</p>
-          <p>Média de hotas por projeto: {meanHoursWorked}</p>
-          <p>Horário de Trabalho por Data:</p>
-        </div>
+          <p>Média de horas por projeto: {meanHoursWorked}</p>
+        </TabContent>
       ),
     },
   ];
-  return (
-    <>
-      <DashboardWrapper>
-        <TabsWrapper>
-          {tabs.map((tab, index) => (
-            <Tab
-              key={index}
-              onClick={() => setActiveTab(index)}
-              className={`flex-1 px-4 py-2 text-center border-b-2 ${
-                activeTab === index
-                  ? "border-red-500 bg-red-100"
-                  : "border-transparent bg-gray-50"
-              }`}
-            >
-              {tab.label}
-            </Tab>
-          ))}
-        </TabsWrapper>
 
-        <MainContent className="p-4 bg-beige h-48 flex justify-center items-center">
-          {tabs[activeTab].content}
-        </MainContent>
-      </DashboardWrapper>
-    </>
+  return (
+    <DashboardWrapper>
+      <TabsWrapper>
+        {tabs.map((tab, index) => (
+          <Tab key={index} isActive={activeTab === index} color={tabColors[index]} onClick={() => handleTabClick(index)}>
+            {tab.label}
+          </Tab>
+        ))}
+      </TabsWrapper>
+
+      <MainContent color={tabColors[activeTab]}>{tabs[activeTab].content}</MainContent>
+    </DashboardWrapper>
   );
 };
-
-const PaperSheet = styled.div`
-  background-color: #f5f5f5;
-  border-radius: 10px;
-  padding: 20px;
-  margin: 20px 0;
-`;
 
 const DashboardWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  border: 2px solid red;
   width: 70vw;
   height: 70vh;
 `;
@@ -114,18 +89,34 @@ const TabsWrapper = styled.div`
   display: flex;
 `;
 
-const Tab = styled.button`
+const Tab = styled.button<{ isActive: boolean; color: string }>`
   padding: 1rem;
   border-radius: 1rem 1rem 0 0;
   border: none;
   cursor: pointer;
+  background-color: ${({ isActive, color }) => (isActive ? color : "#fff")};
+  font-weight: ${({ isActive }) => (isActive ? "bold" : "normal")};
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: ${({ color }) => color};
+  }
 `;
 
-const MainContent = styled.div`
+const MainContent = styled.div<{ color: string }>`
   border-radius: 0 1rem 1rem 1rem;
-  background-color: #f5f5f5;
+  background-color: ${({ color }) => color};
   padding: 1rem;
   height: 100%;
+  transition: background-color 0.3s ease;
 `;
+
+// **Componente para Conteúdo das Abas**
+const TabContent = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <div>
+    <h2>{title}</h2>
+    {children}
+  </div>
+);
 
 export { DashboardPage };

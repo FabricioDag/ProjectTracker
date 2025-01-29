@@ -87,14 +87,14 @@ grid-template-columns: repeat(
 ); /* Cada coluna terá pelo menos 200px */
 gap: 16px; /* Espaço entre os itens */
 padding: 16px;
-border: 2px solid gold;
+// outline: 2px solid gold;
 /* Centralização */
 justify-items: center; 
 align-items: center; 
 `;
 
 const NewProjectStyled = styled.div`
-  border:2px solid red;
+  //outline:2px solid red;
   color: hsl(235, 46%, 20%);
   cursor: pointer;
   opacity: 0.3;

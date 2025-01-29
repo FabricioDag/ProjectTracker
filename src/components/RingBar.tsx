@@ -11,8 +11,8 @@ interface RingBarProps {
 
 const RingBar: React.FC<RingBarProps> = ({
   progress,
-  size = 100,
-  strokeWidth = 10,
+  size = 70,
+  strokeWidth = 5,
   backgroundColor = "#e0e0e0",
   progressColor = "#3498db",
 }) => {

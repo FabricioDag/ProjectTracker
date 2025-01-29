@@ -50,9 +50,15 @@ const FolderComponent = ({ project, onClick }) => {
       </FrontFolderOverlay>
 
       <TextWrapper>
-        <h1>{workedHours > 0 ? `${workedHours.toFixed(1)}h` : "<1h"}</h1>
+        <WrapperWorkedHours>
+          <BackText>{workedHours != 0  ? `${workedHours.toFixed(1)}h` : "0h"}</BackText>
+          <FrontText>{workedHours != 0  ? `${workedHours.toFixed(1)}h` : "0h"}</FrontText>
+        </WrapperWorkedHours>
+        {/* <h1>{workedHours != 0  ? `${workedHours.toFixed(1)}h` : "0h"}</h1> */}
         <p>{project.title}</p>
         {/* <p>{percentage}</p> */}
+
+        
       </TextWrapper>
     </FolderWrapper>
   );
@@ -75,7 +81,7 @@ const Paper = styled.div`
 `;
 
 const FolderWrapper = styled.div`
-  border: 2px solid red;
+  // outline: 2px solid red;
   position: relative;
   cursor: pointer;
   display: flex;
@@ -122,13 +128,52 @@ const TextWrapper = styled.div`
   padding-top: 2rem;
 
   & h1 {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     font-weight: normal;
   }
 
   p{
     text-transform: capitalize;
   }
+
+  //  &::after{
+  //    position:absolute;
+  //    content:'inherit';
+  //    top:0;
+  //    left:0;
+  //    width:100%;
+  //    height:100%;
+  //    background-color:red;
+  //    opacity:0.3;
+  // }
 `;
+
+const WrapperWorkedHours = styled.div`
+  position:relative;
+  //outline:2px solid aquamarine;
+`
+const BackText = styled.h1`
+  position:absolute;
+  outline:2px solid yellow;
+  font-size: 2.8rem;
+  font-weight: normal;
+  inset: 0;
+  width:100%;
+  color:purple;
+  z-index:-1;
+`
+
+const FrontText = styled.h1`
+  position:absolute;
+  outline:2px solid green;
+  font-size: 2.8rem;
+  font-weight: normal;
+  inset: 0;
+  width:40%;
+  overflow:hidden;
+  color:red;
+  z-index:10;
+`
+
 
 export { FolderComponent };
