@@ -1,7 +1,12 @@
 import { motion } from "motion/react";
 import styled from "styled-components";
+import { useProjects } from "../context/ProjectContext";
 
 const ModalComponent = ({ project, onClose }) => {
+  const { getProjectById, toggleTodoCompletion } = useProjects();
+
+  const updatedProject = getProjectById(project.id); // pega a versao atualizada // eu poderia nao passar o object como props e sim o id e pegar o objeto atualizado aqui
+
   const modalVariants = {
     hidden: { y: "100vh", opacity: 0 },
     visible: {
@@ -17,10 +22,6 @@ const ModalComponent = ({ project, onClose }) => {
     (acc, record) => acc + record.hours,
     0
   );
-
-  const toggleTodoCompletion = (index) => {
-    project.todos[index].completed = !project.todos[index].completed;
-  };
 
   return (
     <StyledBg onClick={onClose}>
@@ -41,7 +42,9 @@ const ModalComponent = ({ project, onClose }) => {
 
           <DeadlineWrapper>
             <span>Deadline:</span>
-            <DeadlineHeader>{new Date(project.deadline).toLocaleDateString('pt-BR')}</DeadlineHeader>
+            <DeadlineHeader>
+              {new Date(project.deadline).toLocaleDateString("pt-BR")}
+            </DeadlineHeader>
           </DeadlineWrapper>
 
           <DescriptionWrapper>
@@ -60,10 +63,10 @@ const ModalComponent = ({ project, onClose }) => {
             Progresso: {completedTodos}/{project.todos.length}
           </p>
           <TodoList>
-            {project.todos.map((todo, index) => (
+            {updatedProject.todos.map((todo) => (
               <TodoItem
-                onClick={() => toggleTodoCompletion(index)}
-                key={index}
+                key={todo.id}
+                onClick={() => toggleTodoCompletion(updatedProject.id, todo.id)}
                 className={`${todo.completed ? "completed" : ""}`}
               >
                 {todo.text}
@@ -73,17 +76,16 @@ const ModalComponent = ({ project, onClose }) => {
         </TodoContainer>
 
         <hr />
-        
+
         <RecordsContainer>
-        <legend>Records</legend>
+          <legend>Records</legend>
           {project.records.map((record, index) => (
-           <div key={index}>
-            <p>Data: {new Date(record.date).toLocaleDateString('pt-BR')}</p>
-            <p>Horas: {(record.hours.toFixed(2))}h</p>
-          </div>
-        ))}
+            <div key={index}>
+              <p>Data: {new Date(record.date).toLocaleDateString("pt-BR")}</p>
+              <p>Horas: {record.hours.toFixed(2)}h</p>
+            </div>
+          ))}
         </RecordsContainer>
-        
       </StyledModal>
     </StyledBg>
   );
@@ -104,9 +106,9 @@ const StyledBg = styled.div`
 
 const StyledModal = styled(motion.div)`
   position: relative;
-  display:flex;
-  flex-direction:column;
-  gap:1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   background: #ebdab3;
   width: 80%;
   height: 90%;
@@ -139,45 +141,39 @@ const ProjectHeader = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-border-bottom: 1px solid black;
-display: flex;
-flex-direction: column;
-gap: 0.3rem;
-grid-column: span 3;
+  border-bottom: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  grid-column: span 3;
 
-//outline:2px solid blue;
-`
-
-const TitleHeader = styled.p`
-  
+  //outline:2px solid blue;
 `;
+
+const TitleHeader = styled.p``;
 
 const DeadlineWrapper = styled.div`
-border-bottom: 1px solid black;
-display: flex;
-flex-direction: column;
-gap: 0.3rem;
-text-align: center;
+  border-bottom: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  text-align: center;
 
-//outline:2px solid green;
-`
-
-const DeadlineHeader = styled.p`
-  
+  //outline:2px solid green;
 `;
+
+const DeadlineHeader = styled.p``;
 
 const DescriptionWrapper = styled.div`
-border: 1px solid black;
-display: flex;
-flex-direction: column;
-gap: 0.3rem;
-grid-column: span 4;
-padding: 0.5rem;
-`
-
-const DescriptionHeader = styled.p`
-  
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  grid-column: span 4;
+  padding: 0.5rem;
 `;
+
+const DescriptionHeader = styled.p``;
 
 const StyledTotalWorkedHours = styled.p`
   border: 1px solid black;
@@ -219,11 +215,11 @@ const TodoItem = styled.li`
 `;
 
 const RecordsContainer = styled.div`
-// border: 2px solid red;
-display: flex;
-flex-direction: column;
-gap: 1rem;
-align-items: center;
-`
+  // border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+`;
 
 export { ModalComponent };

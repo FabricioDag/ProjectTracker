@@ -7,7 +7,7 @@ import playIcon from "../assets/play-solid.svg";
 import pauseIcon from "../assets/pause-solid.svg";
 
 import { ModalTargetPomodoro } from "./ModalTargetPomodoro";
-import {RingBar} from './RingBar'
+import { RingBar } from "./RingBar";
 
 const PomodoroComponent = () => {
   const { projects, addRecord } = useProjects();
@@ -134,77 +134,84 @@ const PomodoroComponent = () => {
   const handleEndSession = (target) => {
     const newRecord = {
       date: new Date().toISOString(),
-      hours: currentSession/60,
+      hours: currentSession / 60,
     };
 
     addRecord(parseInt(target), newRecord);
     setCurrentSession(0);
     setIsEndingSession(false);
-    setCurrentTimer('work')
-    setCycleCount(0)
+    setCurrentTimer("work");
+    setCycleCount(0);
   };
 
-  const handleClickEndSession = () =>{
-    if(currentSession >= (workTime/60)){
-      setIsEndingSession(true)
-    }else alert(`A sessão deve ser de no minimo ${workTime/60} minutos (1 Pomodoro)`)
-  }
+  const handleClickEndSession = () => {
+    if (currentSession >= workTime / 60) {
+      setIsEndingSession(true);
+    } else
+      alert(
+        `A sessão deve ser de no minimo ${workTime / 60} minutos (1 Pomodoro)`
+      );
+  };
 
-  const progress = 1 - (time / workTime)
+  const progress = 1 - time / totalTime;
 
   return (
     <>
-    <StyledPomodoroComponent className="pomodoroComponent">
-      <PlayPauseButton onClick={handleClick}>
-        {isTimerRunning ? (
-          <img src={pauseIcon} alt="Pause" />
-        ) : (
-          <img src={playIcon} alt="Play" />
-        )}
-      </PlayPauseButton>
+      <StyledPomodoroComponent className="pomodoroComponent">
+        <PlayPauseButton onClick={handleClick}>
+          {isTimerRunning ? (
+            <img src={pauseIcon} alt="Pause" />
+          ) : (
+            <img src={playIcon} alt="Play" />
+          )}
+        </PlayPauseButton>
 
-      <TimerWrapper className="timerWrapper">
-        <RingBar
-          progress={progress}
-        ></RingBar>
-        <Timer>{formatTime(time)}</Timer>
-      </TimerWrapper>
+        <TimerWrapper className="timerWrapper">
+          <RingBar progress={progress}></RingBar>
+          <Timer>{formatTime(time)}</Timer>
+        </TimerWrapper>
 
-      
-      <EndSessionButton onClick={handleClickEndSession}>Finalizar Seção</EndSessionButton>
+        <EndSessionButton onClick={handleClickEndSession}>
+          Finalizar Seção
+        </EndSessionButton>
 
-      <Debug>
-        <h2>Debug</h2>
-        <p>Work: {workTime}</p>
-        <p>Short Break: {shortBreakTime}</p>
-        <p>Long Break: {longBreakTime}</p>
-        <p>Cycles: {cyclesBeforeLongBreak}</p>
-        <p>Current Timer: {currentTimer}</p>
-        <p>Current Session: {currentSession}</p>
-        <p>Current Cycle: {cycleCount}</p>
-      </Debug>
-
-    </StyledPomodoroComponent>
-    {isEndindSession && <ModalTargetPomodoro endSession={handleEndSession} setIsEndingSession={setIsEndingSession} currentSession={currentSession}/>}
+        <Debug>
+          <h2>Debug</h2>
+          <p>Work: {workTime}</p>
+          <p>Short Break: {shortBreakTime}</p>
+          <p>Long Break: {longBreakTime}</p>
+          <p>Cycles: {cyclesBeforeLongBreak}</p>
+          <p>Current Timer: {currentTimer}</p>
+          <p>Current Session: {currentSession}</p>
+          <p>Current Cycle: {cycleCount}</p>
+        </Debug>
+      </StyledPomodoroComponent>
+      {isEndindSession && (
+        <ModalTargetPomodoro
+          endSession={handleEndSession}
+          setIsEndingSession={setIsEndingSession}
+          currentSession={currentSession}
+        />
+      )}
     </>
   );
 };
 
 const EndSessionButton = styled.button`
-  padding:.3rem;
-  border:2px solid white;
-  color:white;
-  font-weight:bold;
-  background-color:transparent;
-  border-radius:.3rem;
-  transition:.2s ease;
-  opacity:0.5;
-  cursor:pointer;
+  padding: 0.3rem;
+  border: 2px solid white;
+  color: white;
+  font-weight: bold;
+  background-color: transparent;
+  border-radius: 0.3rem;
+  transition: 0.2s ease;
+  opacity: 0.5;
+  cursor: pointer;
 
-  &:hover{
-    opacity:1;
+  &:hover {
+    opacity: 1;
   }
-`
+`;
 
 const Debug = styled.div`
   position: absolute;
@@ -240,13 +247,13 @@ const TimerWrapper = styled.div`
   left: 50%;
   top: -50%;
   transform: translateX(-50%);
-  border-radius:50%;
+  border-radius: 50%;
   //outline: 2px solid red;
 `;
 
 const Timer = styled.p`
-  position:absolute;
-`
+  position: absolute;
+`;
 
 const PlayPauseButton = styled.button`
   background-color: transparent;

@@ -30,9 +30,32 @@ export const ProjectProvider = ({ children }) => {
     return projects.find((project) => project.id === id);
   };
 
+  const toggleTodoCompletion = (projectId, todoId) => {
+    setProjects((prevProjects) =>
+      prevProjects.map((project) =>
+        project.id === projectId
+          ? {
+              ...project,
+              todos: project.todos.map((todo) =>
+                todo.id === todoId
+                  ? { ...todo, completed: !todo.completed }
+                  : todo
+              ),
+            }
+          : project
+      )
+    );
+  };
+
   return (
     <ProjectContext.Provider
-      value={{ projects, addProject, addRecord, getProjectById }}
+      value={{
+        projects,
+        addProject,
+        addRecord,
+        getProjectById,
+        toggleTodoCompletion,
+      }}
     >
       {children}
     </ProjectContext.Provider>

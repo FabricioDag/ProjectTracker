@@ -1,12 +1,12 @@
-import type React from "react"
-import "./RingBar.css"
+import type React from "react";
+import "./RingBar.css";
 
 interface RingBarProps {
-  progress: number
-  size?: number
-  strokeWidth?: number
-  backgroundColor?: string
-  progressColor?: string
+  progress: number;
+  size?: number;
+  strokeWidth?: number;
+  backgroundColor?: string;
+  progressColor?: string;
 }
 
 const RingBar: React.FC<RingBarProps> = ({
@@ -14,11 +14,11 @@ const RingBar: React.FC<RingBarProps> = ({
   size = 70,
   strokeWidth = 5,
   backgroundColor = "#e0e0e0",
-  progressColor = "#3498db",
+  progressColor = "#13B526",
 }) => {
-  const normalizedProgress = Math.min(1, Math.max(0, progress))
-  const circumference = size * Math.PI
-  const strokeDashoffset = circumference - normalizedProgress * circumference
+  const normalizedProgress = Math.min(1, Math.max(0, progress));
+  const circumference = size * Math.PI;
+  const strokeDashoffset = circumference - normalizedProgress * circumference;
 
   return (
     <div
@@ -49,8 +49,7 @@ const RingBar: React.FC<RingBarProps> = ({
         />
       </svg>
     </div>
-  )
-}
+  );
+};
 
-export  {RingBar}
-
+export { RingBar };

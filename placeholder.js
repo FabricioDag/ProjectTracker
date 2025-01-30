@@ -81,3 +81,37 @@ let p = [
     ],
   },
 ];
+
+<WrapperWorkedHours>
+  <BackText>{workedHours != 0 ? `${workedHours.toFixed(1)}h` : "0h"}</BackText>
+  <FrontText>
+    {workedHours != 0 ? `${workedHours.toFixed(1)}h` : "0h"}
+  </FrontText>
+</WrapperWorkedHours>;
+
+const WrapperWorkedHours = styled.div`
+  position: relative;
+  //outline:2px solid aquamarine;
+`;
+const BackText = styled.h1`
+  position: absolute;
+  outline: 2px solid yellow;
+  font-size: 2.8rem;
+  font-weight: normal;
+  inset: 0;
+  width: 100%;
+  color: purple;
+  z-index: -1;
+`;
+
+const FrontText = styled.h1`
+  position: absolute;
+  outline: 2px solid green;
+  font-size: 2.8rem;
+  font-weight: normal;
+  inset: 0;
+  width: 40%;
+  overflow: hidden;
+  color: red;
+  z-index: 10;
+`;
